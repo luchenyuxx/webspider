@@ -1,14 +1,19 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Lib where
 
 import Network.Wreq
 import Control.Lens
-import Data.ByteString.Lazy.Internal (ByteString)
+import Text.ParserCombinators.Parsec
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
-
--- testHTML :: IO (Response ByteString)
-testHTML :: IO ByteString
+testHTML :: IO (Either ParseError [[String]])
 testHTML = do
-  r <- get "http://www.google.com"
-  return $ r ^. responseBody
+  r <- get "http://www.naliu.co.uk"
+  return $ parse htmlToWords "html" (r ^. responseBody)
+
+word = many1 letter
+
+words' = many (manyTill anyChar word)
+
+htmlToWords = endBy line (many anyChar >> eof)
+
+line = many $ try (manyTill anyChar word)
