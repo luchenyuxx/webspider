@@ -21,6 +21,7 @@ library
                      , bytestring
                      , wreq
                      , parsec
+                     , tagsoup
   default-language:    Haskell2010
 
 executable webspider-exe
