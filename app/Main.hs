@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import WebSpider
 
 main :: IO ()
 main = someFunc
